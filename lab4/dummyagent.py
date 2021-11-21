@@ -63,8 +63,6 @@ if __name__ == "__main__":
     A2 = createAgent("MA_agent2@01337.io", "Pass_agent2")
     A3 = createAgent("MA_agent3@01337.io", "Pass_agent3")
     A4 = createAgent("MA_agent4@01337.io", "Pass_agent4")
-    A5 = createAgent("MA_agent5@01337.io", "Pass_agent5")
-    A6 = createAgent("MA_agent6@01337.io", "Pass_agent6")
 
     # Отправка сообщенияя
     fr = {'message': 'message', 'to': getFullName(A3)}

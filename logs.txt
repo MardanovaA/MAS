@@ -1,0 +1,2 @@
+ma_agent1@01337.io SENDS message with content "message" to ma_agent3@01337.io at 2021-11-21 17:06:37.432366
+ma_agent3@01337.io RECEIVED message with content "message" from ma_agent1@01337.io at 2021-11-21 17:06:38.642685

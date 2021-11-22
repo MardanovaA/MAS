@@ -5,15 +5,18 @@ from spade.message import Message
 from spade.template import Template
 import datetime
 
+
 class testAgent(Agent):
     class RecvBehav(PeriodicBehaviour):
         async def run(self):
             msg = await self.receive(timeout=1)
             if msg:
                 # Запись в логи
-                print(f'{msg.to} RECEIVED message with content "{msg.body}" from {msg.sender} at {datetime.datetime.now()}')
-                f = open('logs.txt', 'a')
-                f.write(f'{msg.to} RECEIVED message with content "{msg.body}" from {msg.sender} at {datetime.datetime.now()}\n')
+                print(
+                    f'{msg.to} RECEIVED message with content "{msg.body}" from {msg.sender} at {datetime.datetime.now()}')
+                f = open('logs.txt', 'a+')
+                f.write(
+                    f'{msg.to} RECEIVED message with content "{msg.body}" from {msg.sender} at {datetime.datetime.now()}\n')
                 f.close()
 
     class InformBehav(PeriodicBehaviour):
@@ -28,8 +31,9 @@ class testAgent(Agent):
                 print(f'{msg.sender} SENDS message with content "{msg.body}" to {msg.to} at {datetime.datetime.now()}')
 
                 # Запись в логи
-                f = open('logs.txt', 'a')
-                f.write(f'{msg.sender} SENDS message with content "{msg.body}" to {msg.to} at {datetime.datetime.now()}\n')
+                f = open('logs.txt', 'a+')
+                f.write(
+                    f'{msg.sender} SENDS message with content "{msg.body}" to {msg.to} at {datetime.datetime.now()}\n')
                 f.close()
 
                 # Очищение
@@ -53,8 +57,40 @@ def createAgent(agent_name, agent_pass):
 
     return agent
 
+
 def getFullName(agent):
-    return agent.name+"@01337.io"
+    return agent.name + "@01337.io"
+
+
+def checkingagent(agent1, agent2):
+    if agent2.jid in agent1.presence.get_contacts():
+        sendingmessege(agent1, agent2)
+    else:
+        for value in agent1.presence.get_contacts().keys():
+            if (value == 'ma_agent1@01337.io'):
+                sendingmessege(agent1, A1)
+                sendingmessege(A1, agent2)
+                break
+            if (value == 'ma_agent2@01337.io'):
+                sendingmessege(agent1, A2)
+                sendingmessege(A2, agent2)
+                break
+            if (value == 'ma_agent3@01337.io'):
+                sendingmessege(agent1, A3)
+                sendingmessege(A3, agent2)
+                break
+            if (value == 'ma_agent4@01337.io'):
+                sendingmessege(agent1, A4)
+                sendingmessege(A4, agent2)
+                break
+
+
+def sendingmessege(agent1, agent2):
+    if (agent2.presence.state.show == None):
+        print('The message could not be delivered, agent is unavailable')
+    else:
+        fr = {'message': 'message', 'to': getFullName(agent2)}
+        agent1.set('msg', fr)
 
 
 if __name__ == "__main__":
@@ -64,9 +100,10 @@ if __name__ == "__main__":
     A3 = createAgent("MA_agent3@01337.io", "Pass_agent3")
     A4 = createAgent("MA_agent4@01337.io", "Pass_agent4")
 
+    # Отправим сообщение от агента A1 до A4
+
     # Отправка сообщенияя
-    fr = {'message': 'message', 'to': getFullName(A3)}
-    A1.set('msg', fr)
+    checkingagent(A1, A4)
 
     # Удаление
     while A1.is_alive():
@@ -77,7 +114,5 @@ if __name__ == "__main__":
             A2.stop()
             A3.stop()
             A4.stop()
-            A5.stop()
-            A6.stop()
             break
     print("Agents finished")

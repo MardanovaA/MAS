@@ -12,8 +12,7 @@ class testAgent(Agent):
             msg = await self.receive(timeout=1)
             if msg:
                 # Запись в логи
-                print(
-                    f'{msg.to} RECEIVED message with content "{msg.body}" from {msg.sender} at {datetime.datetime.now()}')
+                print(f'{msg.to} RECEIVED message with content "{msg.body}" from {msg.sender} at {datetime.datetime.now()}')
                 f = open('logs.txt', 'a+')
                 f.write(
                     f'{msg.to} RECEIVED message with content "{msg.body}" from {msg.sender} at {datetime.datetime.now()}\n')
@@ -67,6 +66,7 @@ def checkingagent(agent1, agent2):
         sendingmessege(agent1, agent2)
     else:
         for value in agent1.presence.get_contacts().keys():
+            value = str(value)
             if (value == 'ma_agent1@01337.io'):
                 sendingmessege(agent1, A1)
                 sendingmessege(A1, agent2)
@@ -86,7 +86,7 @@ def checkingagent(agent1, agent2):
 
 
 def sendingmessege(agent1, agent2):
-    if (agent2.presence.state.show == None):
+    if (not agent2.presence.is_available()):
         print('The message could not be delivered, agent is unavailable')
     else:
         fr = {'message': 'message', 'to': getFullName(agent2)}
